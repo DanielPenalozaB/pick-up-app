@@ -1,0 +1,63 @@
+<div class="flex justify-center items-center mt-10">
+	<h2 class="text-3xl text-indigo-500 font-semibold">Registrar alumno</h2>
+</div>
+<div
+	class="flex flex-col justify-center items-center gap-4 mx-auto mt-10 max-w-sm"
+>
+	<form (submit)="saveStudent()" class="flex flex-col gap-4 w-full">
+		<label for="name">
+			Nombre
+			<input
+				type="text"
+				id="name"
+				name="name"
+				placeholder="Ingresa el nombre"
+				[(ngModel)]="name"
+				required
+				class="block w-full rounded-md border-0 mt-2 px-2 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-transparent"
+			/>
+		</label>
+		<span class="text-lg text-gray-800 font-semibold">Sección</span>
+		<div class="flex flex-col gap-2">
+			<label for="section-pre">
+				<input
+					type="radio"
+					name="section"
+					id="section-pre"
+					value="Pre-escolar"
+					[(ngModel)]="section"
+				/>
+				Pre-escolar
+			</label>
+			<label for="section-pri">
+				<input
+					type="radio"
+					name="section"
+					id="section-pri"
+					value="Primaria"
+					[(ngModel)]="section"
+				/>
+				Primaria
+			</label>
+			<label for="section-bac">
+				<input
+					type="radio"
+					name="section"
+					id="section-bac"
+					value="Bachillerato"
+					[(ngModel)]="section"
+				/>
+				Bachillerato
+			</label>
+		</div>
+		<button
+			(click)="saveStudent()"
+			[disabled]="name && section ? false : true"
+			type="submit"
+			title="Guardar"
+			class="flex justify-center items-center gap-2 mx-auto px-4 py-3 w-min bg-indigo-500 rounded-xl text-2xl text-white font-semibold hover:bg-indigo-400 disabled:bg-gray-400 disabled:text-white"
+		>
+			Guardar
+		</button>
+	</form>
+</div>

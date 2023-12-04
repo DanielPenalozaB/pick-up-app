@@ -1,0 +1,111 @@
+<div *ngIf="stage === 'arriving'">
+	<div class="flex justify-center items-center mt-10">
+		<h2 class="text-3xl text-indigo-500 font-semibold">
+			Selecciona un carril
+		</h2>
+	</div>
+	<div class="grid grid-cols-3 grid-rows-1 gap-4 mx-auto mt-10 max-w-xl">
+		<button
+			*ngFor="let lane of lanes"
+			(click)="selectLane(lane.id)"
+			type="button"
+			title="Carril #{{ lane.id }}"
+			class="flex flex-col justify-center items-center gap-4 p-8 w-min rounded-3xl cursor-pointer duration-300 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:fill-gray-500 disabled:hover:text-gray-500 disabled:cursor-not-allowed"
+			[ngClass]="{
+				'bg-indigo-500 fill-white text-white font-semibold outline outline-4 outline-offset-4 outline-indigo-400':
+					selectedLane === lane.id,
+				'fill-gray-500 text-gray-500 font-medium hover:bg-indigo-400 hover:fill-white hover:text-white hover:font-semibold outline-4 outline-offset-4 outline-indigo-400 focus:bg-indigo-400 focus:fill-white focus:text-white focus:font-semibold':
+					selectedLane !== lane.id
+			}"
+			[disabled]="!lane.available"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				class="h-32 w-auto fill-inherit"
+			>
+				<path
+					d="M21.46,4.134A4.992,4.992,0,0,0,16.536,0H7.451A4.992,4.992,0,0,0,2.525,4.138l-2.449,14A5,5,0,0,0,5,24H19a5,5,0,0,0,4.925-5.866ZM21.3,20.929A3,3,0,0,1,19,22H5a3,3,0,0,1-2.955-3.518l2.449-14A3,3,0,0,1,7.451,2h9.085A3,3,0,0,1,19.49,4.48l2.463,14A3,3,0,0,1,21.3,20.929ZM13,5V7a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0Zm0,6v2a1,1,0,0,1-2,0V11a1,1,0,0,1,2,0Zm0,6v2a1,1,0,0,1-2,0V17a1,1,0,0,1,2,0Z"
+				/>
+			</svg>
+			<span class="text-3xl">Carril #{{ lane.id }}</span>
+		</button>
+	</div>
+	<div class="flex justify-center items-center mt-10">
+		<button
+			(click)="arrived()"
+			[disabled]="!selectedLane"
+			type="button"
+			title="Llegué"
+			class="flex justify-center items-center gap-4 px-4 py-3 bg-indigo-500 rounded-xl text-2xl text-white font-semibold hover:bg-indigo-400 disabled:bg-gray-400 disabled:text-white"
+		>
+			Llegué
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				id="Layer_1"
+				data-name="Layer 1"
+				viewBox="0 0 24 24"
+				class="h-6 w-6 fill-white"
+			>
+				<path
+					d="M20.74,10.312l-4.3-6.171A5,5,0,0,0,12.336,2H8.5A5.024,5.024,0,0,0,3.825,5.228L1.753,10.692A4,4,0,0,0,0,14v1.5a2.505,2.505,0,0,0,2,2.45v.55a3.5,3.5,0,0,0,7,0V18h6v.5a3.5,3.5,0,0,0,7,0v-.55a2.505,2.505,0,0,0,2-2.45V15A5.011,5.011,0,0,0,20.74,10.312ZM14.8,5.284,18.084,10H11V4h1.336A3,3,0,0,1,14.8,5.284Zm-9.1.653A3.014,3.014,0,0,1,8.5,4H9v6H4.154ZM7,18.5a1.5,1.5,0,0,1-3,0V18H7ZM18.5,20A1.5,1.5,0,0,1,17,18.5V18h3v.5A1.5,1.5,0,0,1,18.5,20ZM22,15.5a.5.5,0,0,1-.5.5H2.5a.5.5,0,0,1-.5-.5V14a2,2,0,0,1,2-2H19a3,3,0,0,1,3,3Z"
+				/>
+			</svg>
+		</button>
+	</div>
+</div>
+<div *ngIf="stage === 'arrived' && students">
+	<div
+		class="flex flex-col justify-center items-center gap-4 mx-auto mt-10 max-w-sm"
+	>
+		<table class="table-fixed text-sm border-2 border-gray-400 rounded-xl">
+			<thead class="relative border-b-2 text-gray-900 font-medium">
+				<tr>
+					<th class="py-4 px-3">Nombre</th>
+					<th class="py-4 px-3">Sección</th>
+				</tr>
+			</thead>
+			<tbody class="text-gray-600">
+				<tr *ngFor="let student of students">
+					<td class="py-4 px-3">{{ student.name }}</td>
+					<td class="py-4 px-3">
+						<span
+							class="p-2 bg-red-500 text-red-100 font-medium rounded-full"
+							[ngClass]="{
+								'bg-red-500 text-red-100': student.section === 'Primaria',
+								'bg-yellow-500 text-yellow-100': student.section === 'Pre-escolar',
+								'bg-green-500 text-green-100': student.section === 'Bachillerato'
+							}"
+							>{{ student.section }}</span
+						>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="flex justify-center items-center mt-10">
+		<button
+			(click)="ready()"
+			type="button"
+			title="Listo"
+			class="flex justify-center items-center gap-2 px-4 py-3 bg-indigo-500 rounded-xl text-2xl text-white font-semibold hover:bg-indigo-400 disabled:bg-gray-400 disabled:text-white"
+		>
+			Listo
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				x="0px"
+				y="0px"
+				viewBox="0 0 507.506 507.506"
+				style="enable-background: new 0 0 507.506 507.506"
+				xml:space="preserve"
+				class="h-8 w-8 fill-white"
+			>
+				<g>
+					<path
+						d="M163.865,436.934c-14.406,0.006-28.222-5.72-38.4-15.915L9.369,304.966c-12.492-12.496-12.492-32.752,0-45.248l0,0   c12.496-12.492,32.752-12.492,45.248,0l109.248,109.248L452.889,79.942c12.496-12.492,32.752-12.492,45.248,0l0,0   c12.492,12.496,12.492,32.752,0,45.248L202.265,421.019C192.087,431.214,178.271,436.94,163.865,436.934z"
+					/>
+				</g>
+			</svg>
+		</button>
+	</div>
+</div>
